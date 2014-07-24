@@ -1,5 +1,5 @@
 {
-  "name": "hat/dal",
+  "name": "hatwebtech/dal",
   "type": "library",
   "description": "hat dal (database abstraction layer) for PHP 5.3+",
   "keywords": ["dal"],
