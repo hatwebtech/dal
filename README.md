@@ -1,10 +1,10 @@
-# DAL (database abstraction layer)
-![PHP 5.3+](http://img.shields.io/badge/php-5.3%2B-blue.svg)
-[![Latest Unstable Version](https://poser.pugx.org/hatwebtech/dal/v/unstable.svg)](https://packagist.org/packages/hatwebtech/dal) 
-[![License](https://poser.pugx.org/hatwebtech/dal/license.svg)](https://packagist.org/packages/hatwebtech/dal)
+# DAL (database abstraction layer) ![PHP 5.3+](http://img.shields.io/badge/php-5.3%2B-blue.svg)
+
+[![Latest Unstable Version](https://poser.pugx.org/hatwebtech/dal/v/unstable.svg)](https://packagist.org/packages/hatwebtech/dal) [![License](https://poser.pugx.org/hatwebtech/dal/license.svg)](https://packagist.org/packages/hatwebtech/dal)
 ## Description
 **dal**  is data abstraction library written in PHP. It's  lightweight (half a dozen classes) and fast. It is inspired by Doctrine
 ```php
+//example
 $q = \hatwebtech\dal\DAL::query()
         ->select('u.id, u.name')
         ->from('User u')
@@ -12,14 +12,13 @@ $q = \hatwebtech\dal\DAL::query()
 ;  
 ```
 
-dal works with PHP 5.3.3 or later.
+dal works with PHP 5.3 or later.
 
 ## Installation
 
 The recommended way to install HATwebtech DAL is through Composer.  Just create a `composer.json` file and run the `php composer.phar install` command to install it:
 
 ```json
-
     {
         "require": {
             "hatwebtech/dal": "dev-master"
@@ -31,9 +30,8 @@ The recommended way to install HATwebtech DAL is through Composer.  Just create 
 ### Init
 ```php
 $dsn = 'pgsql:dbname=example_db;host=127.0.0.1';
-$user = 'postgres';
-$password = 'pass123';
-$dbh = new PDO($dsn, $user, $password);
+
+$dbh = new PDO($dsn', 'postgres', 'pass123');
 
 \hatwebtech\dal\DAL::setDbh($dbh);
 \hatwebtech\dal\DAL::setTablePath(APPPATH . 'tables/');
