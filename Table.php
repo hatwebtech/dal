@@ -29,7 +29,7 @@
  * @method bool loadOneByColumnName($value) true if object with column_name == $value found
  * @method array loadByColumnName($value) array of Table objects
  */
-namespace hat\dal;
+namespace hatwebtech\dal;
 abstract class Table{
 
   private $_columns = array();
@@ -43,7 +43,7 @@ abstract class Table{
   private $_has_one_for_save = array(); // save this objects
   private $_has_many_for_save = array(); // save this objects
 
-  protected $behavior = null; // \hat\dal\Behavior object (if loaded)
+  protected $behavior = null; // \hatwebtech\dal\Behavior object (if loaded)
   private $_behaviors = array(); //
 
   private $_associations = array();
@@ -58,7 +58,7 @@ abstract class Table{
     $this->setUp();
     //$this->_behave('DalQuery');
     // load behavior on table init
-    $this->behavior = new\hat\dal\Behavior($this, $this->_behaviors);
+    $this->behavior = new\hatwebtech\dal\Behavior($this, $this->_behaviors);
   }
   public function __destruct() {
     unset($this->behavior);
@@ -107,7 +107,7 @@ abstract class Table{
   public function getBehavior(){
     if(!isset($this->behavior)){
       if(!empty($this->_behaviors)){
-        $this->behavior = new\hat\dal\Behavior($this, $this->_behaviors);
+        $this->behavior = new\hatwebtech\dal\Behavior($this, $this->_behaviors);
       }
     }
     if(isset($this->behavior)){
@@ -387,7 +387,7 @@ abstract class Table{
             if(isset($this->_result_query)){
               $assoc = $this->_result_query->getTable($name);
             }else{
-              $assoc = \hat\dal\DAL::load($name);
+              $assoc = \hatwebtech\dal\DAL::load($name);
             }
             $assoc->setResultQuery($this->_result_query);
             $assoc->setResults(array());
@@ -402,7 +402,7 @@ abstract class Table{
               $_assoc = $this->_result_query->getTable($name);
               $assoc = clone $_assoc;
               $assoc->setResultQuery($this->_result_query);
-              //$assoc = \hat\dal\DAL::load($name);
+              //$assoc = \hatwebtech\dal\DAL::load($name);
               //print_r($assoc); exit;
               $assoc->setResults($this->_results[$name][$arguments[0]]);
               // check this assoc for save upon $this->save()
@@ -419,7 +419,7 @@ abstract class Table{
                 $assoc = clone $_assoc;
               }else{
 //                print_r('dal::load');
-                $assoc = \hat\dal\DAL::load($name);
+                $assoc = \hatwebtech\dal\DAL::load($name);
               }
               $assoc->setResultQuery($this->_result_query);
               // this assoc is added by get(_new_index_) so add it to _has_many_for_save[]
@@ -533,7 +533,7 @@ abstract class Table{
       return $this->behavior->act($at);
     }else{
       if(!empty($this->_behaviors)){
-        $this->behavior = new\hat\dal\Behavior($this, $this->_behaviors);
+        $this->behavior = new\hatwebtech\dal\Behavior($this, $this->_behaviors);
         if($query){
           $this->behavior->setQuery($query);
         }
@@ -687,7 +687,7 @@ abstract class Table{
       //\hat\dbg::alert($this->_for_save);
     $this->preInsert();
     // use _result_query ?
-    $this->_query = \hat\dal\DAL::query();
+    $this->_query = \hatwebtech\dal\DAL::query();
     $this->_query->insertInto($this->_getModelName());
     foreach($this->_for_save as $k=>$v){
       $this->_query->value($this->_getColumnName($k), $v);
@@ -752,7 +752,7 @@ abstract class Table{
   private function _update(){
     $this->preUpdate();
     // use _result_query ?
-    $this->_query = \hat\dal\DAL::query();
+    $this->_query = \hatwebtech\dal\DAL::query();
     $this->_query->update($this->_getModelName());
     //\hat\dbg::alert($this->_for_save);
     foreach($this->_for_save as $k=>$v){
@@ -824,7 +824,7 @@ abstract class Table{
       return false;
     }
     if(!isset($this->_query)){
-      $this->_query = \hat\dal\DAL::query();
+      $this->_query = \hatwebtech\dal\DAL::query();
     }
     $this->_query->delete($this->_getModelName());
     foreach($this->_primaryKeys as $primary_key){

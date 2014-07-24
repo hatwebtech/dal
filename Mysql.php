@@ -1,5 +1,5 @@
 <?php
-namespace hat\dal;
+namespace hatwebtech\dal;
 /**
  * Mysql specific query parts
  *

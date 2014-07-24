@@ -20,7 +20,7 @@
  *
  * @author Panajotis Zamos
  */
-namespace hat\dal;
+namespace hatwebtech\dal;
 class Misc {
 
 
@@ -45,7 +45,7 @@ class Misc {
 
       $t = 'information_schema.constraint_column_usage';
       $sql = "select t.* from $t t where t.table_schema = 'public'";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -56,7 +56,7 @@ class Misc {
 
       $t = 'information_schema.columns';
       $sql = "select t.* from $t t where t.table_schema = 'public'";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -67,7 +67,7 @@ class Misc {
 
       $t = 'information_schema.referential_constraints';
       $sql = "select t.* from $t t where t.constraint_schema = 'public'";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -78,7 +78,7 @@ class Misc {
 
       $t = 'information_schema.key_column_usage';
       $sql = "select t.* from $t t where t.table_schema = 'public'";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -89,7 +89,7 @@ class Misc {
 
       $t = 'information_schema.table_constraints'; // constraint_schema
       $sql = "select t.* from $t t where t.constraint_schema = 'public'";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -100,7 +100,7 @@ class Misc {
 
       $t = 'pg_catalog.pg_indexes';
       $sql = "select t.* from $t t ";
-      $q = \hat\dal\DAL::query();
+      $q = \hatwebtech\dal\DAL::query();
       $q->queryStmt($sql);
       $r = $q->getResultsDbRow();
       if(isset($r[0])){
@@ -118,7 +118,7 @@ class Misc {
   private function __load_table_info($table_name){
 
     $sql = "select t.* from information_schema.tables t  where t.table_schema = 'public' and t.table_name = ?";
-    $q = \hat\dal\DAL::query();
+    $q = \hatwebtech\dal\DAL::query();
     $q->setBindParam(array('type' => 'string', 'value' => $table_name));
     $q->queryStmt($sql);
     $dbg['tables'] = $q->getResultsDbRow();
@@ -132,7 +132,7 @@ class Misc {
 
   function listTables(){
     $sql = "select t.table_name from information_schema.tables t  where t.table_schema = 'public' order by t.table_name";
-    $q = \hat\dal\DAL::query();
+    $q = \hatwebtech\dal\DAL::query();
     $q->queryStmt($sql);
     $dbg['tables'] = $q->getResultsDbRow();
     $tables = array();
@@ -147,9 +147,9 @@ class Misc {
   private function _generateTableClass($table_name){
 
     $class_name = $this->_toClassName($table_name);
-    $path = \hat\dal\DAL::getTablePath();
+    $path = \hatwebtech\dal\DAL::getTablePath();
     //\hat\dbg::alert($path);
-    $namespace = \hat\dal\DAL::getTableNamespace();
+    $namespace = \hatwebtech\dal\DAL::getTableNamespace();
     $namespace = \ltrim($namespace, '\\');
     $namespace = \rtrim($namespace, '\\');
     //\hat\dbg::alert($namespace, true);
@@ -298,7 +298,7 @@ class Misc {
  * @author created by HDM table class generator
  */
 namespace $namespace;
-class $class_name extends \hat\dal\Table{
+class $class_name extends \hatwebtech\dal\Table{
   public function setTableDefinition(){
     \$this->setTableName('$table_name');
 ";

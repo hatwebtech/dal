@@ -1,5 +1,7 @@
 # DAL (database abstraction layer)
-[![Latest Unstable Version](https://poser.pugx.org/hatwebtech/dal/v/unstable.svg)](https://packagist.org/packages/hatwebtech/dal) [![License](https://poser.pugx.org/hatwebtech/dal/license.svg)](https://packagist.org/packages/hatwebtech/dal)
+![PHP 5.3+](http://img.shields.io/badge/php-5.3%2B-blue.svg)
+[![Latest Unstable Version](https://poser.pugx.org/hatwebtech/dal/v/unstable.svg)](https://packagist.org/packages/hatwebtech/dal) 
+[![License](https://poser.pugx.org/hatwebtech/dal/license.svg)](https://packagist.org/packages/hatwebtech/dal)
 ## Description
 **dal**  is data abstraction library written in PHP. It's  lightweight (half a dozen classes) and fast. It is inspired by Doctrine
 ```php
@@ -70,4 +72,3 @@ If you discover any bugs, feel free to create an issue on GitHub fork and send u
 ## License
 
 Apache 2.0
-

@@ -21,7 +21,7 @@
  *
  * @author Panajotis Zamos
  */
-namespace hat\dal;
+namespace hatwebtech\dal;
 abstract class DAL{
 
   private static $_dbh;
@@ -45,7 +45,7 @@ abstract class DAL{
    */
   public static function setDbh($dbh){
     self::$_dbh = $dbh;
-    spl_autoload_register(array('\hat\dal\DAL', '_hdm_loader'));
+    spl_autoload_register(array('\hatwebtech\dal\DAL', '_hdm_loader'));
   }
   public static function getDbh(){
     return self::$_dbh;
@@ -69,7 +69,7 @@ abstract class DAL{
 
     //print_r(\compact('namespace', 'className', 'fileName'));
 
-    if($namespace == 'hat\dal'){
+    if($namespace == 'hatwebtech\dal'){
       require __DIR__ . \DIRECTORY_SEPARATOR . $className . $_fileExtension;
     }elseif(isset(self::$_table_namespace) && isset(self::$_table_path) && $_namespaceSeparator . $namespace . $_namespaceSeparator == self::$_table_namespace){
       require self::$_table_path . \DIRECTORY_SEPARATOR . $className . $_fileExtension;
@@ -127,10 +127,10 @@ abstract class DAL{
   public static function query(){
     $driver_name = self::$_dbh->getAttribute(\PDO::ATTR_DRIVER_NAME);
     if($driver_name == 'pgsql'){
-      $query = new \hat\dal\DalQuery();
+      $query = new \hatwebtech\dal\DalQuery();
     }else{
       switch($driver_name){
-        case 'mysql' : $query = new \hat\dal\Mysql(); break;
+        case 'mysql' : $query = new \hatwebtech\dal\Mysql(); break;
       }
       if(!isset($query)){
         exit("db driver $driver_name not suported by HDM.");

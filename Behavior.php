@@ -1,5 +1,5 @@
 <?php
-namespace hat\dal;
+namespace hatwebtech\dal;
 /**
  * Behavior class will have methods for all behaviors suported by HDM
  *

@@ -29,7 +29,7 @@
  * @todo BUG join condition not applied if joining Table object have behaviors
  * @todo BUG 'alias.bool_field = ?' => true DON'T work but 'alias.bool_field = ?' => 1 do work?
  */
-namespace hat\dal;
+namespace hatwebtech\dal;
 class DalQuery {
   protected $_dbh;
   protected $_table_path;
@@ -378,18 +378,18 @@ class DalQuery {
   }
 
   final public function getResultsArray($parse_tree = true){
-    return $this->getResults(\hat\dal\DAL::AS_ARRAY, $parse_tree);
+    return $this->getResults(\hatwebtech\dal\DAL::AS_ARRAY, $parse_tree);
   }
 
   final public function getResultsObject($parse_tree = true){
-    return $this->getResults(\hat\dal\DAL::AS_OBJECT, $parse_tree);
+    return $this->getResults(\hatwebtech\dal\DAL::AS_OBJECT, $parse_tree);
   }
 
   final public function getResultsDbRow(){
-    return $this->getResults(\hat\dal\DAL::AS_DB_ROW);
+    return $this->getResults(\hatwebtech\dal\DAL::AS_DB_ROW);
   }
 
-  final public function getResults($as = \hat\dal\DAL::AS_ARRAY, $parse_tree = true){
+  final public function getResults($as = \hatwebtech\dal\DAL::AS_ARRAY, $parse_tree = true){
 
 //    print_r($this->_tables_in_use);
 //    print_r($this->_tables); exit;
@@ -404,18 +404,18 @@ class DalQuery {
       return null;
     }
 
-    if($as == \hat\dal\DAL::AS_DB_ROW){
+    if($as == \hatwebtech\dal\DAL::AS_DB_ROW){
       return $this->results;
     }
 
     if($this->_parse_result){
       $this->_parseResult($parse_tree);
     }
-    if($as == \hat\dal\DAL::AS_ARRAY){
+    if($as == \hatwebtech\dal\DAL::AS_ARRAY){
       return $this->_out;
     }
 
-    if($as == \hat\dal\DAL::AS_OBJECT){
+    if($as == \hatwebtech\dal\DAL::AS_OBJECT){
       $resultObject = $this->_getRootTable();
       $results = array();
       foreach($this->_out as $out){
@@ -2047,7 +2047,7 @@ where: <br/>
         }
 
 
-        $model = \hat\dal\DAL::load($model_name);
+        $model = \hatwebtech\dal\DAL::load($model_name);
         $this->_tables[$model_name] = $model;
         $primary_keys = $this->_tables[$model_name]->getPrimaryKeys();
         $table_info = array('model_name' => $model_name, 'model_alias' => $model_alias, 'primary_keys' => $primary_keys);
@@ -2093,7 +2093,7 @@ where: <br/>
         }
 
 
-        $model = \hat\dal\DAL::load($model_name);
+        $model = \hatwebtech\dal\DAL::load($model_name);
         $this->_tables[$model_name] = $model;
         $primary_keys = $this->_tables[$model_name]->getPrimaryKeys();
         $table_info = array('model_name' => $model_name, 'model_alias' => $model_alias, 'primary_keys' => $primary_keys);
@@ -2157,7 +2157,7 @@ where: <br/>
         }
 
 
-        $model = \hat\dal\DAL::load($model_name);
+        $model = \hatwebtech\dal\DAL::load($model_name);
         $this->_tables[$model_name] = $model;
         $table_info = array('model_name' => $model_name, 'model_alias' => $model_alias);
         $this->_tables_in_use[] = $table_info;
@@ -2195,7 +2195,7 @@ where: <br/>
         }
 
         
-        $this->_tables[$model_name] = \hat\dal\DAL::load($model_name);
+        $this->_tables[$model_name] = \hatwebtech\dal\DAL::load($model_name);
         $primary_keys = $this->_tables[$model_name]->getPrimaryKeys();
         foreach($primary_keys as $primary_key){
           $this->_SELECT[$model_alias][] = $primary_key;
@@ -2268,7 +2268,7 @@ where: <br/>
 
           $model_name = $associ_info['association_name'];
 
-          $this->_tables[$model_name] = \hat\dal\DAL::load($model_name);
+          $this->_tables[$model_name] = \hatwebtech\dal\DAL::load($model_name);
           $primary_keys = $this->_tables[$model_name]->getPrimaryKeys();
           $table_info = array(
               'model_name' => $model_name,
