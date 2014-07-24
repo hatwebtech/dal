@@ -2,7 +2,6 @@
 /**
  * Description of DAL [Database Abstraction Layer]
  *
- * Packagist hook test :)
  *
     Copyright 2011-2014 hatwebtech.com
 
