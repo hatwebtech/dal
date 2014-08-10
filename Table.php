@@ -709,14 +709,14 @@ abstract class Table{
     if($r1 === false){
       $r1 = $this->_query->getLastPdoErrorMessage();
       print_r($this->_query->queryDebug());
-      \hat\dbg::alert($this->_for_save);
+      //\hat\dbg::alert($this->_for_save);
       //$r1 = $this->_query->getPdoErrorMessages();
       throw new \Exception('Error saving [insert] ' . $this->_getModelName() . ' with message: ' . $r1);
     }
 
     $this->_saved = $this->_for_save;
     $this->_for_save = array();
-    
+
     $this->refreshResults();
 
     if($r1 === 0){
@@ -917,6 +917,9 @@ abstract class Table{
       $q = $q->orderBy('table_name');
 
     }
+
+    //print_r($q->queryDebug()); exit;
+
       //\hat\dbg::alert($q->queryDebug());
     $r = $q->queryStmt();
     if($q === false){
@@ -1062,8 +1065,8 @@ abstract class Table{
 
     return $q->getPath($id, $table, $options);
   }
-  
-  
+
+
   /**
    * Load tree by id, path or root_id
    * @param mixed $with id, path or root_id
@@ -1074,6 +1077,7 @@ abstract class Table{
    $options = array(
      'depth' => 2,
      'root_id' => 4,
+     'as' => DAL::AS_ARRAY, // or DAL::AS_OBJECT or DAL::AS_DB_ROW
      'in' => 37, //or
      'in' => 'files\images\big', //or
      'in' => array('files', 'images', 'big'),
@@ -1124,6 +1128,9 @@ abstract class Table{
     if($r===false){
       $r = $base_query->getLastPdoErrorMessage();
     }else{
+      if(isset($options['as'])){
+        $r = $base_query->getResults($options['as']);
+      }
       $r = $base_query->getResults();
     }
     return $r;
@@ -1143,6 +1150,9 @@ abstract class Table{
     if($r===false){
       $r = $base_query->getLastPdoErrorMessage();
     }else{
+      if(isset($options['as'])){
+        $r = $base_query->getResults($options['as']);
+      }
       $r = $base_query->getResults();
     }
     return $r;
@@ -1164,6 +1174,9 @@ abstract class Table{
     if($r===false){
       $r = $base_query->getLastPdoErrorMessage();
     }else{
+      if(isset($options['as'])){
+        $r = $base_query->getResults($options['as']);
+      }
       $r = $base_query->getResults();
     }
 
@@ -1234,7 +1247,7 @@ abstract class Table{
         throw new \Exception('This node is already in tree.');
       }
       $behavior_name = 'nestedset';
-      
+
       return $this->behavior->insertAsLastChildOf($destination);
     }else{
       throw new \Exception('Destination must be a tree.');

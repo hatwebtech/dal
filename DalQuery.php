@@ -24,7 +24,7 @@
  * @todo other JOIN types
  * @todo implement GROUP BY and HAVING
  * @todo implement execute() to somehow avoid checking for error after queryStmt()
- * 
+ *
  * @todo BUG where condition 'alias.field IS NULL' don't work if there is no space at the end of string (after 'NULL')
  * @todo BUG join condition not applied if joining Table object have behaviors
  * @todo BUG 'alias.bool_field = ?' => true DON'T work but 'alias.bool_field = ?' => 1 do work?
@@ -168,7 +168,7 @@ class DalQuery {
   final public function resetBindParam(){
     $this->_BIND_PARAMS = array();
   }
-  
+
   public function getCountQuerySql() {
     return $this->_count_query_sql;
   }
@@ -183,7 +183,7 @@ class DalQuery {
     $this->_parse_method = '';
   }
 
-  
+
   /**
    *
    * @param string|mixed $param
@@ -243,23 +243,23 @@ class DalQuery {
       $this->_query_parts['order_by'] = array();
       $this->_query_parts['offset'] = array();
       $this->_query_parts['limit'] = array();
-      
+
       $this->_its_count_query = true;
-      
+
 //      \hat\dbg::alert($this->_query_parts['select']);
 //      \hat\dbg::alert($this->_SELECT);
-      
+
       if(empty($this->_sql) && (!$this->_prepareQueryParts() || !$this->_parseQueryParts())){
         $this->pdo_error_message[] = 'No sql.';
         return false;
       }
-      
+
 //      \hat\dbg::alert($this->_query_parts['select']);
 //      \hat\dbg::alert($this->_SELECT);
 //      //\hat\dbg::alert($this->_sql, true);
 //      \hat\dbg::alert($this->_sql);
       //$this->_sql = 'SELECT count(DISTINCT t.id) FROM tree_test AS t LEFT JOIN tree_test_assoc AS ta ON t.id=ta.node_id WHERE 137=137 and ta.node_id < 76';
-      
+
       // restore sql parts
       $this->_query_parts['select'] = $_select;
       $this->_query_parts['order_by'] = $_order_by;
@@ -301,7 +301,7 @@ class DalQuery {
 //    \hat\dbg::alert($this->results);
 //    \hat\dbg::alert(\hat\dbg::memory());
 //    \hat\dbg::timer();
-    
+
 //    $a = clone($this);
 //    $a->reset();
 //    \hat\dbg::alert($a->queryStmt($this->_sql));
@@ -345,7 +345,7 @@ class DalQuery {
 //    print_r($results); exit;
 //    \hat\dbg::alert($this->_sql);
 //    \hat\dbg::alert($results);
-    
+
     $count = 0;
     if(isset($results[0]) && isset($results[0]['count_query'])){
       $count = (int)$results[0]['count_query'];
@@ -354,11 +354,11 @@ class DalQuery {
     $this->_count_query_sql = $this->_sql;
     $this->reset(false);
     return $count;
-    
+
     $this->results = $results;
     return \count($results);
     return 'not implemented';
-    
+
   }
   final public function getBind(){
     return array(
@@ -393,13 +393,16 @@ class DalQuery {
 
 //    print_r($this->_tables_in_use);
 //    print_r($this->_tables); exit;
+//    print_r($this->_parse_result);
+//    print_r($this->results); exit;
 //    print_r($this->_root_key);
 //    print_r($this->_table_map);
-//    print_r($this->_result_key_map);
+//    print_r($this->_result_key_map); exit;
 //    print_r($this->_join_node_keys);
 //    print_r($this->_join_pairs);
 //    print_r($this->_used_results_for_assoc);
-    //print_r('end'); exit;
+//    print_r($this->_parse_result);
+//    print_r('end'); exit;
     if(empty($this->results)){
       return null;
     }
@@ -450,7 +453,10 @@ class DalQuery {
         }
       }
     }elseif($this->_parse_method == 'hash'){
+
       $this->_extractResultKeyMap(false);
+      //print_r($this->results[0]);
+      //exit("aqw\n");
       //$this->_prepare_hash();
       $this->_result_distinction();
       if(isset($this->results[0]) && !empty($this->results[0])){
@@ -465,6 +471,9 @@ class DalQuery {
             trigger_error('Query result problem (no 0 element in results array)', \E_USER_ERROR);
           }
         }
+
+        //print_r($this->_root_table); exit;
+
         if(isset($this->_hash_map_r[$this->_root_table['model_alias']])){
           foreach($this->_hash_map_r[$this->_root_table['model_alias']] as $result_index => $hash){
             $this->_out[] = $this->_parseAssocResult($this->_root_key, $result_index);
@@ -480,7 +489,7 @@ class DalQuery {
       $this->_out = $this->_parseTree();
     }
 
-    
+
     return $this->_out;
   }
 
@@ -561,15 +570,15 @@ class DalQuery {
 ////            $rf_value = $this->results[$result_index][$rf];
 //            //$dd = \compact('rf', 'assoc_rf', 'rff','result_index', 'rf_value', 'rff_value');
 //            $dd['_duplicate_'] = $rf;
-//                    
+//
 //            $result['_duplicate_'] = $dd;
 //
 //          }
 ////          if(!isset($this->_used_assoc[$rf]) || !\in_array($assoc_rf .'_/\_'. $this->results[$result_index][$rf], $this->_used_assoc[$rf])){
-////            
+////
 ////          }else{
 ////            $result['_duplicate2_'] = $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
-////            
+////
 ////          }
 //            //\hat\dbg::alert($dd);
 //        }
@@ -587,7 +596,7 @@ class DalQuery {
 //////            $dd = \compact('rf', 'assoc_rf', 'rff','result_index', 'rf_value', 'rff_value');
 //////            //$dd = array('_OK_' => $rf);
 //////            $dd['_OK_'] = $rf;
-//////            
+//////
 //////            //$result['_ok_'] = $dd;
 //////          }else{
 //////            $rff_value = $this->results[$result_index][$rff];
@@ -595,15 +604,15 @@ class DalQuery {
 //////            $dd = array();
 //////            //$dd = \compact('rf', 'assoc_rf', 'rff','result_index', 'rf_value', 'rff_value');
 //////            $dd['_duplicate_'] = $rf;
-//////                    
+//////
 //////            $result['_duplicate_'] = $dd;
 //////
 //////          }
 ////          if(!isset($this->_used_assoc[$rf]) || !\in_array($assoc_rf .'_/\_'. $this->results[$result_index][$rf], $this->_used_assoc[$rf])){
-////            
+////
 ////          }else{
 ////            $result['_duplicate2_'] = $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
-////            
+////
 ////          }
 ////            //\hat\dbg::alert($dd);
 ////        }
@@ -620,7 +629,7 @@ class DalQuery {
 //                //$this->_used_assoc[$rf][] = $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
 //                //$tmp['__type__'] = 'hasOne';
 //                if(isset($tmp['_duplicate_']) || isset($result['_duplicate_'])){
-//                  
+//
 //                }else{
 //                  $result[$assoc_info['association_alias']] = $tmp;
 //                }
@@ -643,15 +652,15 @@ class DalQuery {
 //          foreach($assoc_info['on_index'][$this->results[$result_index][$rf]] as $assoc_type => $assoc_index_keys){
 //            if($assoc_type == 'hasMany'){
 //              foreach($assoc_index_keys as $assoc_index_key){
-//                
-//  
+//
+//
 //                  //if(!isset($this->_used_assoc[$rf]) || !\in_array($assoc_rf .'_/\_'. $this->results[$result_index][$rf], $this->_used_assoc[$rf])){
 ////                $_duplicate_3 = false;
 ////                  if(isset($this->_used_assoc[$rf]) && \in_array($assoc_rf .'_/\_'. $this->results[$result_index][$rf], $this->_used_assoc[$rf])){
 ////                    $_duplicate_3 = true;
 ////                    //$result['_duplicate_3'] = '----  ' . $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
 ////                  }
-//                
+//
 //                  $tmp = $this->_getAssocResult($assoc_rf, $assoc_index_key);
 //                  $this->_used_assoc[$rf][] = $this->results[$result_index][$rf];
 ////                  $this->_used_assoc[$rf][] = $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
@@ -664,7 +673,7 @@ class DalQuery {
 ////                  if($_duplicate_3){
 ////                    $tmp['__duplicate_3'] = '----  ' . $assoc_rf .'_/\_'. $this->results[$result_index][$rf];
 ////                  }
-//                  
+//
 //                  if(isset($tmp['_duplicate_'])){
 //                  //if(isset($tmp['_duplicate_']) || isset($result['_duplicate_'])){
 //                    // skip duplicate
@@ -701,7 +710,7 @@ class DalQuery {
 //    }
 //
 //    return $result;
-//  
+//
 //  }
 
   protected function _parseAssocResult($field, $result_index, $type = ''){
@@ -776,15 +785,15 @@ class DalQuery {
       }
     }
 //    echo "<br>------ end 2'' ------- $type -> field: $field - #$result_index ( {$this->_result_key_map[$field]['model_name']}[ ] )<br>\n\n";
-    
+
     return $result;
   }
-  
+
   protected $_hash_results = array();
   protected $_hash_results_r = array();
   protected $_hash_map = array();
   protected $_hash_map_r = array();
-  
+
   protected function _prepare_hash(){
     // hash('md5', 'string');
     $algo = 'md5';
@@ -796,7 +805,7 @@ class DalQuery {
     $dbg['tables_in_use'] = $this->_tables_in_use;
     $dbg['result_key_map__keys'] = array_keys($this->_result_key_map);
     $dbg['result_key_map'] = $this->_result_key_map;
-    
+
     \hat\dbg::timmer('hashing');
     foreach($this->results as $k => $r){
 //      $this->_hash_results[$k] = array();
@@ -812,7 +821,7 @@ class DalQuery {
 //        //$this->_hash_map[$hash][$k] = $alias;
 //        $this->_hash_map[$hash]['alias'] = $alias;
 //        $this->_hash_map[$hash]['index'] = $k;
-        
+
         if(!isset($this->_hash_map_r[$alias])){
           $this->_hash_map_r[$alias] = array();
         }
@@ -822,7 +831,7 @@ class DalQuery {
       }
     }
     \hat\dbg::timmer('hashing');
-    
+
 //    $dbg['hash_count'] = count($this->_hash_map);
 //    $dbg['hash_map'] = $this->_hash_map;
     $dbg['hash_map_r'] = $this->_hash_map_r;
@@ -831,9 +840,9 @@ class DalQuery {
 //    $dbg['row_results'][] = $this->results[0];
 //    $dbg['row_results'][] = $this->results[1];
     //\hat\dbg::alert($dbg);
-    
+
   }
-  
+
   protected $_distinction_map = array();
   protected function _result_distinction(){
     $dbg = array();
@@ -844,7 +853,7 @@ class DalQuery {
 //    $dbg['tables_in_use'] = $this->_tables_in_use;
 //    $dbg['result_key_map__keys'] = array_keys($this->_result_key_map);
 //    $dbg['result_key_map'] = $this->_result_key_map;
-    
+
 //    \hat\dbg::timmer('distinction');
     foreach($this->results as $k => $r){
       foreach($this->_table_map_primary as $alias => $fields){
@@ -858,7 +867,7 @@ class DalQuery {
 //        //$this->_hash_map[$hash][$k] = $alias;
 //        $this->_hash_map[$hash]['alias'] = $alias;
 //        $this->_hash_map[$hash]['index'] = $k;
-        
+
         if(!isset($this->_hash_map_r[$alias])){
           $this->_hash_map_r[$alias] = array();
         }
@@ -868,21 +877,22 @@ class DalQuery {
       }
     }
 //    \hat\dbg::timmer('distinction');
-    
+
 //    $dbg['hash_count'] = count($this->_hash_map);
 //    $dbg['hash_map'] = $this->_hash_map;
 //    $dbg['hash_map_r'] = $this->_hash_map_r;
 //    $dbg['hash_results'] = $this->_hash_results;
 //    $dbg['hash_results_r'] = $this->_hash_results_r;
-    //$dbg['row_results'] = $this->results;
+//    //$dbg['row_results'] = $this->results;
 //    $dbg['row_results'][] = $this->results[0];
-    //$dbg['row_results'][] = $this->results[1];
+//    $dbg['row_results'][] = $this->results[1];
+//    print_r($dbg); exit;
 //    \hat\dbg::alert($dbg);
     //\hat\dbg::alert('kraj', true);
-    
-    
+
+
   }
-  
+
   protected function _getAssocResult($field, $result_index){
 //    \hat\dbg::alert('_getAssocResult');
 //    if($this->_query_debug2){
@@ -982,6 +992,7 @@ class DalQuery {
     //print_r($this->_result_key_map); exit;
     foreach($this->_result_key_map as $rf => $rf_info){
       $table_alias = $this->_getFieldTableAlias($rf);
+      //$table_alias = strtolower($table_alias);
       $field = $this->_getFieldName($rf);
 
       $this->_result_key_map[$rf]['table_alias'] = $table_alias;
@@ -996,7 +1007,7 @@ class DalQuery {
 
       //print_r($this->_tables_in_use); exit;
       foreach($this->_tables_in_use as $tiu){
-        
+
         if(isset($tiu['assoc_name'])){
           $parent_field = $tiu['assoc_to_alias'] . '__' . $tiu['assoc_info']['keys']['local'];
           $child_field = $tiu['model_alias'] . '__' . $tiu['assoc_info']['keys']['foreign'];
@@ -1009,7 +1020,7 @@ class DalQuery {
             // something is connected to this key
             $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['association_alias'] = $tiu['assoc_info']['association_alias'];
             $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['association_table_alias'] = $tiu['model_alias'];
-            
+
 //            if($tiu['model_alias'] == 'ca'){
 //              \hat\dbg::alert($rf);
 //              \hat\dbg::alert($rf_info);
@@ -1018,10 +1029,10 @@ class DalQuery {
 //            }
             $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['local_key'] = $tiu['model_alias'] .'__'. $tiu['assoc_info']['keys']['local'];
             $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['foreign_key'] = $tiu['model_alias'] .'__'. $tiu['assoc_info']['keys']['foreign'];
-            
+
 //            $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['local_key'] = $tiu['model_alias'] .'__'. $tiu['assoc_info']['keys']['foreign'];
 //            $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['foreign_key'] = $tiu['assoc_to_alias'] .'__'. $tiu['assoc_info']['keys']['local'];
-            
+
             $this->_result_key_map[$rf]['local_key_for'][$tiu['assoc_info']['type']][$child_field]['tiu_assoc_info'] = $tiu['assoc_info'];
             //
 
@@ -1071,9 +1082,10 @@ class DalQuery {
       }
 
     }
+    //print_r($this->_result_key_map); exit;
 
     foreach($this->_tables_in_use as $tiu){
-      $table_alias = $tiu['model_alias'];
+      $table_alias = strtolower($tiu['model_alias']);
       if(!isset($this->_table_map_primary[$table_alias])){
         $this->_table_map_primary[$table_alias] = array();
       }
@@ -1087,10 +1099,14 @@ class DalQuery {
         $pk_field = $table_alias . '__' . $pk;
         if(!isset($this->_table_map[$table_alias])){
           echo "<pre>";
-          \hat\dbg::alert($this->_table_map);
+          //\hat\dbg::alert($this->_table_map);
+          print_r($this->_tables_in_use);
+          print_r($this->_table_map_primary);
+          print_r($this->_table_map);
           trigger_error("missing $table_alias in \$this->_table_map", \E_USER_ERROR);
+          exit;
           \hat\dbg::alert($this->_table_map,true);
-          
+
         }
         if(in_array($pk_field, $this->_table_map[$table_alias])){
           if(!\in_array($pk_field, $this->_table_map_primary[$table_alias])){
@@ -1445,14 +1461,14 @@ class DalQuery {
 
   /**
    * Left join tables as defined in table definition class
-   * 
+   *
    * $join string should be 'foo.BarAsoc bar' or 'foo.BarAsoc as bar'
    * $condition is array of aditional conditions
-   * 
-   * @param string $join 
+   *
+   * @param string $join
    * @param mixed $condition
-   * @return DalQuery 
-   * 
+   * @return DalQuery
+   *
 <code>leftJoin("foo.BarAsoc bar", $condition);</code> // join BarAsoc model to foo with alias bar<br/>
 where: <br/>
 <ul>
@@ -1628,7 +1644,7 @@ where: <br/>
       //\hat\dbg::alert(compact('part', 'hql'));
       $return = true;
     }
-    
+
     return $return;
   }
   private function _contain_set($hql, $part){
@@ -2194,7 +2210,7 @@ where: <br/>
           }
         }
 
-        
+
         $this->_tables[$model_name] = \hatwebtech\dal\DAL::load($model_name);
         $primary_keys = $this->_tables[$model_name]->getPrimaryKeys();
         foreach($primary_keys as $primary_key){
@@ -2457,7 +2473,7 @@ where: <br/>
       }
 //      \hat\dbg::elog(print_r($queryParts, true));
       foreach($queryParts as $k => $queryPart){
-        
+
         if(is_array($queryPart)){
           if(isset($queryPart['sql'])){
             //$_queryPart[] = array('as' => 'sql', 'sql' => $queryPart);
@@ -2487,7 +2503,7 @@ where: <br/>
         }
         // reset array keys after unset
         $parts = array_values($parts);
-        
+
         $subject = $parts[0];
 
         $dot = \strrpos($subject, '.');
@@ -2509,7 +2525,7 @@ where: <br/>
         }else{
           $direction = 'ASC';
         }
-        
+
         $collate = '';
         if(! \in_array($direction, array('ASC', 'DESC'))){
           // it's not direction
@@ -2537,7 +2553,7 @@ where: <br/>
       }
     }
     $this->_ORDER_BY = $_queryPart;
-           
+
     //print_r($this->_ORDER_BY); exit;
 
     return true;
@@ -3120,6 +3136,12 @@ where: <br/>
     return true;
   }
 
+  final public function haveErrors(){
+    if(empty($this->pdo_error_message)) {
+      return false;
+    }
+    return true;
+  }
   final public function getLastPdoErrorMessage(){
     return end($this->pdo_error_message);
   }
@@ -3220,7 +3242,7 @@ where: <br/>
    * @param int $id id of the tree node
    * @param string $table db table name where the tree is
    * @param mixed $options
-   * @return mixed string or array representation of path or false on error 
+   * @return mixed string or array representation of path or false on error
    * @todo use nestedset configuration? (for lft and rgt column names...)
    */
   public function getPath($id, $table, $options = array()){

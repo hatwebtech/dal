@@ -119,7 +119,7 @@ class Behavior {
 //    \hat\dbg::alert($this->isIt('nestedset'));
 //    \hat\dbg::alert('kraj', true);
   }
-  
+
   public function act($at){
     if(!\in_array($at, array('pre', 'post', 'pre_load', 'post_load', 'pre_delete', 'post_delete', 'pre_save', 'post_save', 'DalQuery', 'DalJoin', 'DalSelect', 'DalDelete', 'DalInsert', 'DalUpdate'))){
       throw new \Exception("Behavior at $at not suported.");
@@ -421,6 +421,11 @@ class Behavior {
   }
   private function _insertNode($border, $lft){
     $bn = 'nestedset';
+    /** @todo Use `primary_key` instead of `id` */
+    if (!isset($this->_bv[$bn]['id'])) {
+      throw new \Exception("Error inserting node to tree: Node doesn't have `id`.");
+      return false;
+    }
     $this->_bv[$bn]['query']->begin();
 
     //update lft
@@ -451,6 +456,7 @@ class Behavior {
     //\hat\dbg::alert($r_right);
 
     //update inserting node
+    /** @todo Use `primary_key` instead of `id` */
     $this->_bv[$bn]['query']->reset();
     $this->_bv[$bn]['query'] = $this->_bv[$bn]['query']->update($this->_bv[$bn]['model_name'])
             ->set($this->_bv[$bn]['lft_key'], $lft)
@@ -463,7 +469,9 @@ class Behavior {
 //      \hat\dbg::alert($this->_bv[$bn]['level_key']);
 //      \hat\dbg::alert($this->_bv[$bn]['dest_level'] + 1);
 //      \hat\dbg::alert($r_insert);
-    if($r_insert === false){
+    //var_dump($this->_bv[$bn]['query']->haveErrors()); exit;
+
+    if($r_insert == false){
       $this->_bv[$bn]['err_msg'] .= ' ' . $this->_bv[$bn]['query']->getLastPdoErrorMessage();
     }else{
       $new_result = array(
@@ -480,8 +488,8 @@ class Behavior {
       $this->_bv[$bn]['query']->commit();
     }else{
 //      \hat\dbg::alert('ERROR : ' . $this->_bv[$bn]['err_msg']);
-      throw new \Exception("Error inserting node to tree: {$this->_bv[$bn]['err_msg']}.");
       $this->_bv[$bn]['query']->rollback();
+      throw new \Exception("Error inserting node to tree: {$this->_bv[$bn]['err_msg']}.");
       return false;
     }
 
@@ -493,6 +501,11 @@ class Behavior {
    * @param Table $destination
    */
   private function _moveNode($left_border, $right_border, $new_lft){
+    /** @todo Use `primary_key` instead of `id` (`id` isn't used here but we should not move Node without id!) */
+    if (!isset($this->_bv[$bn]['id'])) {
+      throw new \Exception("Error inserting node to tree: Node doesn't have `id`.");
+      return false;
+    }
 
     $bn = 'nestedset';
     if($this->_bv[$bn]['dest_lft'] > $this->_bv[$bn]['lft'] && $this->_bv[$bn]['dest_lft'] < $this->_bv[$bn]['rgt']){
