@@ -749,7 +749,7 @@ class Behavior {
       $this->_bv[$bn]['query']->rollback();
       return false;
     }elseif($r_left == 0){
-      \hat\dbg::alert($this->_bv[$bn]['query']->queryDebug());
+      //\hat\dbg::alert($this->_bv[$bn]['query']->queryDebug());
       throw new \Exception("0 updated (2)");
       $this->_bv[$bn]['query']->rollback();
       return false;
@@ -952,7 +952,7 @@ class Behavior {
         return;
       }
 //    \hat\dbg::alert($this->_table->toArray());
-      \hat\dbg::alert($old_identifier);
+      //\hat\dbg::alert($old_identifier);
       if($old_identifier != $options['identifier']){
         throw new \Exception('Trying to modify item from another tenant.');
       }

@@ -51,7 +51,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['ISColumnConstraints'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $t = 'information_schema.columns';
@@ -62,7 +62,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['ISColumns'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $t = 'information_schema.referential_constraints';
@@ -73,7 +73,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['ISConstraints'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $t = 'information_schema.key_column_usage';
@@ -84,7 +84,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['ISKeyColumnUsage'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $t = 'information_schema.table_constraints'; // constraint_schema
@@ -95,7 +95,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['ISTableConstraints'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $t = 'pg_catalog.pg_indexes';
@@ -106,7 +106,7 @@ class Misc {
       if(isset($r[0])){
         $dbg['PGIndexes'] = $r;
       }else{
-        \hat\dbg::alert('ERROR : No info for ' . $t);
+        //\hat\dbg::alert('ERROR : No info for ' . $t);
       }
 
       $this->_db_info = $dbg;
@@ -125,7 +125,7 @@ class Misc {
     if(isset($dbg['tables'][0])){
       return $dbg['tables'][0];
     }else{
-      \hat\dbg::alert('ERROR : No table info for table ' . $table_name);
+      //\hat\dbg::alert('ERROR : No table info for table ' . $table_name);
       return false;
     }
   }
@@ -159,10 +159,10 @@ class Misc {
       $filename = '/tmp/' . $class_name . '.php';
     }
     if(\file_exists($filename)){
-      \hat\dbg::alert("PHP class for $class_name exists!");
+      //\hat\dbg::alert("PHP class for $class_name exists!");
       return;
     }else{
-      \hat\dbg::alert("genarating PHP class for $class_name.");
+      //\hat\dbg::alert("genarating PHP class for $class_name.");
     }
 
 
@@ -338,8 +338,8 @@ class $class_name extends \hatwebtech\dal\Table{
 
 ";
 
-//    \hat\dbg::alert($t_info);
-//    \hat\dbg::alert($php, true);
+//    //\hat\dbg::alert($t_info);
+//    //\hat\dbg::alert($php, true);
 //      $pkeys = array();
 //      $_pkeys = array();
 //      foreach($t_info['Constraints']['PRIMARY_KEY'] as $c){
@@ -417,7 +417,7 @@ class $class_name extends \hatwebtech\dal\Table{
 //      }else{
 //        echo "  Referenced by: $nl"; echo(\implode(",$nl", $ref_by)); echo "$nl";
 //      }
-  
+
       // close
       $php .= "  }
 }
@@ -431,11 +431,11 @@ class $class_name extends \hatwebtech\dal\Table{
     $b = fwrite($fileHandle, $php);
     fclose($fileHandle);
     \chmod($filename, 0666);
-    \hat\dbg::alert("written $b bytes in $class_name [path = $filename].");
+    //\hat\dbg::alert("written $b bytes in $class_name [path = $filename].");
 
 //    echo "<pre>\n\nPHP code:\n";
 //    echo $php;
-//    \hat\dbg::alert('end', true);
+//    //\hat\dbg::alert('end', true);
 
 
   }
@@ -448,7 +448,7 @@ class $class_name extends \hatwebtech\dal\Table{
     if(!is_array($table_names)){
       return;
     }
-    
+
 //    $dbg = array(
 ////        'post' => $_POST,
 //        'data' => $this->data,
@@ -457,7 +457,7 @@ class $class_name extends \hatwebtech\dal\Table{
 //    //\hat\dbg::alert($dbg);
 //    $table_names_str = isset($this->data['table_names']) ? $this->data['table_names'] : '';
 //    $table_names = empty($table_names_str) ? array() : \explode("\n", $table_names_str);
-//    \hat\dbg::alert($table_names);
+//    //\hat\dbg::alert($table_names);
 //
 //    $html = '
 //    <form method="post" action="/en/api/generateTableClass">

@@ -354,10 +354,10 @@ abstract class Table{
         }elseif(\array_key_exists($k_name, $this->_for_save)){
           return $this->_for_save[$k_name];
         }else{
-          //\hat\dbg::level(2);
-          \hat\dbg::alert(compact('name', 'k_name', 'k'));
-          \hat\dbg::alert($this->_for_save);
-          \hat\dbg::alert($this->_results);
+          ////\hat\dbg::level(2);
+          //\hat\dbg::alert(compact('name', 'k_name', 'k'));
+          //\hat\dbg::alert($this->_for_save);
+          //\hat\dbg::alert($this->_results);
           echo "<pre>\n\n";
           \trigger_error($name . ' not found in this result set.', \E_USER_WARNING);
           throw new \Exception($name . ' not found in this result set.');

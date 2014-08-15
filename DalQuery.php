@@ -719,10 +719,10 @@ class DalQuery {
 
     // this model filds
     if(!isset($this->_result_key_map[$field]) || !isset($this->_table_map[$this->_result_key_map[$field]['table_alias']])){
-      \hat\dbg::alert(compact(array('field', 'result_index', 'type')));
-      \hat\dbg::alert($this->_result_key_map);
-      \hat\dbg::alert($this->_tables_in_use);
-      \hat\dbg::alert($this->_table_map, true);
+      //\hat\dbg::alert(compact(array('field', 'result_index', 'type')));
+      //\hat\dbg::alert($this->_result_key_map);
+      //\hat\dbg::alert($this->_tables_in_use);
+      //\hat\dbg::alert($this->_table_map, true);
     }
     foreach($this->_table_map[$this->_result_key_map[$field]['table_alias']] as $rf){
       $result[$this->_result_key_map[$rf]['field_name']] = $this->results[$result_index][$rf];
@@ -806,7 +806,7 @@ class DalQuery {
     $dbg['result_key_map__keys'] = array_keys($this->_result_key_map);
     $dbg['result_key_map'] = $this->_result_key_map;
 
-    \hat\dbg::timmer('hashing');
+    //\hat\dbg::timmer('hashing');
     foreach($this->results as $k => $r){
 //      $this->_hash_results[$k] = array();
 //      $this->_hash_results_r[$k] = array();
@@ -830,7 +830,7 @@ class DalQuery {
         }
       }
     }
-    \hat\dbg::timmer('hashing');
+    //\hat\dbg::timmer('hashing');
 
 //    $dbg['hash_count'] = count($this->_hash_map);
 //    $dbg['hash_map'] = $this->_hash_map;
@@ -1093,7 +1093,7 @@ class DalQuery {
         echo "<pre>";
         //\hat\dbg::alert($tiu);
         trigger_error('missing primary_keys', \E_USER_ERROR);
-        \hat\dbg::alert($tiu,true);
+        //\hat\dbg::alert($tiu,true);
       }
       foreach($tiu['primary_keys'] as $pk){
         $pk_field = $table_alias . '__' . $pk;
@@ -1105,7 +1105,7 @@ class DalQuery {
           print_r($this->_table_map);
           trigger_error("missing $table_alias in \$this->_table_map", \E_USER_ERROR);
           exit;
-          \hat\dbg::alert($this->_table_map,true);
+          //\hat\dbg::alert($this->_table_map,true);
 
         }
         if(in_array($pk_field, $this->_table_map[$table_alias])){
@@ -1153,20 +1153,20 @@ class DalQuery {
   final public function queryDebug($level = 0){
     $this->_query_debug = true;
     if($level == 1){
-      \hat\dbg::alert($this->_query_parts);
+      //\hat\dbg::alert($this->_query_parts);
     }
     if(empty($this->_sql) && (!$this->_prepareQueryParts() || !$this->_parseQueryParts())){
       $this->pdo_error_message[] = 'No sql.';
       return 'No sql';
     }
     if($level == 1){
-      \hat\dbg::alert($this->_sql_query_parts);
+      //\hat\dbg::alert($this->_sql_query_parts);
     }
     if($level == 2){
-      \hat\dbg::alert(array(
-        'BIND_PARAMS' => $this->_BIND_PARAMS,
-        'BIND_WHERE_PARAMS' => $this->_BIND_WHERE_PARAMS,
-      ));
+      //\hat\dbg::alert(array(
+      //  'BIND_PARAMS' => $this->_BIND_PARAMS,
+      //  'BIND_WHERE_PARAMS' => $this->_BIND_WHERE_PARAMS,
+      //));
     }
 
     $sql = $this->_sql;
@@ -1182,26 +1182,26 @@ class DalQuery {
   final public function fetchOne(){
     //$this->limit(1);
     try {
-      \hat\dbg::alert($this->queryDebug());
+      //\hat\dbg::alert($this->queryDebug());
       $r = $this->queryStmt();
-      \hat\dbg::alert($r);
-      \hat\dbg::alert($this->_out);
-      \hat\dbg::alert($this->results);
+      //\hat\dbg::alert($r);
+      //\hat\dbg::alert($this->_out);
+      //\hat\dbg::alert($this->results);
     } catch (\Exception $e) {
       $dbg['msg'] = $e->getMessage();
       // $dbg['trace'] = $e->getTraceAsString();
       $this->pdo_error_message[] = $dbg['msg'];
-      \hat\dbg::alert($dbg);
+      //\hat\dbg::alert($dbg);
       return false;
     }
     //$r = $this->getResultsObject();
     $r = $this->getResults();
-    \hat\dbg::alert($r);
+    //\hat\dbg::alert($r);
     if(isset($r[0])){
       return $r[0];
     }
     $this->pdo_error_message[] = 'Not found';
-    \hat\dbg::alert('not found');
+    //\hat\dbg::alert('not found');
     return false;
   }
 
@@ -1950,10 +1950,10 @@ where: <br/>
         throw new \Exception("Error! Column $subject not found in $table_name.");
       }
     }else{
-      \hat\dbg::alert($_alias);
-      \hat\dbg::alert($table_name);
-      \hat\dbg::alert($this->_tables_in_use);
-      \hat\dbg::alert(array_keys($this->_tables));
+      //\hat\dbg::alert($_alias);
+      //\hat\dbg::alert($table_name);
+      //\hat\dbg::alert($this->_tables_in_use);
+      //\hat\dbg::alert(array_keys($this->_tables));
       throw new \Exception("Error! Table for alias $_alias not found in this query.");
     }
 
@@ -2471,7 +2471,7 @@ where: <br/>
       if(!\is_array($queryParts)){
         $queryParts = array($queryParts);
       }
-//      \hat\dbg::elog(print_r($queryParts, true));
+//      //\hat\dbg::elog(print_r($queryParts, true));
       foreach($queryParts as $k => $queryPart){
 
         if(is_array($queryPart)){
@@ -3228,7 +3228,7 @@ where: <br/>
 
   final public function getTable($name){
     if(!isset($this->_tables[$name])){
-      \hat\dbg::alert(array_keys($this->_tables));
+      //\hat\dbg::alert(array_keys($this->_tables));
     }
     return $this->_tables[$name];
   }
