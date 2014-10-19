@@ -152,6 +152,7 @@ class DalQuery {
 
   final public function setSql($sql){
     $this->_sql = $sql;
+    return $this;
   }
   final public function noBehavior(){
     $this->_no_behavior = true;
